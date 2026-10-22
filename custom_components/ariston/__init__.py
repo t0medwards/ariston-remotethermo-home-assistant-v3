@@ -121,7 +121,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.data[DOMAIN][entry.unique_id][BUS_ERRORS_COORDINATOR] = (
             bus_errors_coordinator
         )
-        await bus_errors_coordinator.async_config_entry_first_refresh()
+        # Bus errors are diagnostic only: if the cloud fails to return them,
+        # leave the errors sensor unavailable and retry on the next poll
+        # rather than failing the whole entry (and losing boiler control).
+        await bus_errors_coordinator.async_refresh()
 
         if device.has_metering:
             energy_interval_minutes = entry.options.get(
