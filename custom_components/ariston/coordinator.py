@@ -14,11 +14,11 @@ from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-# Seconds to wait after the 1st, 2nd, 3rd and later consecutive failures (never
+# Seconds to wait after the 1st, 2nd and later consecutive failures (never
 # shorter than the scan interval), so a struggling cloud isn't hammered. The
 # cloud answers 500 when it rate-limits us, so after three failures in a row
 # we stay away for just over 2 hours.
-BACKOFF_SECONDS = (300, 600, 1800, 7500)
+BACKOFF_SECONDS = (300, 600, 7500)
 
 
 class DeviceDataUpdateCoordinator(DataUpdateCoordinator):
